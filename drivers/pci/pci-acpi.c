@@ -389,6 +389,9 @@ bool pciehp_is_native(struct pci_dev *pdev)
 	if (!root)
 		return false;
 
+	if (!pcie_ports_disabled && !pcie_ports_auto)
+		return true;
+
 	return root->osc_control_set & OSC_PCI_EXPRESS_NATIVE_HP_CONTROL;
 }
 

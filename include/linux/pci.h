@@ -2293,4 +2293,8 @@ static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
 /* provide the legacy pci_dma_* API */
 #include <linux/pci-dma-compat.h>
 
+#ifdef CONFIG_PM
+extern bool pci_bridge_native_pme;		/* OS may use PCIe PME */
+#endif
+
 #endif /* LINUX_PCI_H */

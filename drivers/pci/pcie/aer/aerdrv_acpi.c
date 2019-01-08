@@ -114,6 +114,9 @@ int pcie_aer_get_firmware_first(struct pci_dev *dev)
 	if (!pci_is_pcie(dev))
 		return 0;
 
+	if (!pcie_ports_disabled && !pcie_ports_auto)
+		return 0;
+
 	if (!dev->__aer_firmware_first_valid)
 		aer_set_firmware_first(dev);
 	return dev->__aer_firmware_first;
@@ -131,6 +134,8 @@ bool aer_acpi_firmware_first(void)
 		.pci_dev	= NULL,	/* Check all PCIe devices */
 		.firmware_first	= 0,
 	};
+	if (!pcie_ports_disabled && !pcie_ports_auto)
+		return false;
 
 	if (!parsed) {
 		apei_hest_parse(aer_hest_parse, &info);

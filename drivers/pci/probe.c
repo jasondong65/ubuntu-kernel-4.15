@@ -22,6 +22,10 @@
 #define CARDBUS_LATENCY_TIMER	176	/* secondary latency timer */
 #define CARDBUS_RESERVE_BUSNR	3
 
+#ifdef CONFIG_PM
+bool pci_bridge_native_pme = false;		/* OS may use PCIe PME */
+#endif
+
 static struct resource busn_resource = {
 	.name	= "PCI busn",
 	.start	= 0,
@@ -534,7 +538,9 @@ struct pci_host_bridge *pci_alloc_host_bridge(size_t priv)
 
 	INIT_LIST_HEAD(&bridge->windows);
 	bridge->dev.release = pci_release_host_bridge_dev;
-
+#ifdef CONFIG_PM
+	pci_bridge_native_pme = true;
+#endif
 	return bridge;
 }
 EXPORT_SYMBOL(pci_alloc_host_bridge);

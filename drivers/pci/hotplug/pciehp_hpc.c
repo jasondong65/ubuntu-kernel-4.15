@@ -519,6 +519,16 @@ void pciehp_green_led_blink(struct slot *slot)
 		 PCI_EXP_SLTCTL_PWR_IND_BLINK);
 }
 
+void pcie_enable_interrupt(struct controller *ctrl)
+{
+	pcie_write_cmd(ctrl, PCI_EXP_SLTCTL_HPIE, PCI_EXP_SLTCTL_HPIE);
+}
+
+void pcie_disable_interrupt(struct controller *ctrl)
+{
+	pcie_write_cmd(ctrl, 0, PCI_EXP_SLTCTL_HPIE);
+}
+
 int pciehp_power_on_slot(struct slot *slot)
 {
 	struct controller *ctrl = slot->ctrl;
